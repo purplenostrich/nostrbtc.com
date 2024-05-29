@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+#nostrButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: #FF00FF;
+    font-family: 'monospace';
+    text-decoration: none;
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 10; 
+}
+
+.nostrText::after {
+    content: '_';
+    display: inline-block;
+    vertical-align: middle;
+    
+    animation: none;
+}
+
+@keyframes blink-cursor {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes typing {
+    from {
+        max-width: 0;
+    }
+    to {
+        max-width: 100%;
+    }
+}
+
+.nostrText {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid;
+    max-width: 0; 
+    animation: typing 4s steps(17) 1s 1 normal both; 
+}
+
+
+#bitcoinLink {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 10; 
+}
+
+#bitcoinLogo {
+    width: 50px; 
+    height: auto;
+    transition: transform 0.3s;
+}
+
+#bitcoinLogo:hover {
+    transform: scale(1.1); 
+}
+
+
+@media only screen and (max-width: 600px) {
+    #nostrButton {
+        font-size: 24px; 
+    }
+}
