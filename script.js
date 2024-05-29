@@ -8,63 +8,65 @@ document.addEventListener('DOMContentLoaded', (event) => {
             nostrText.classList.add('blink'); 
         }
     });
+});
 
-    const styleSheet = document.styleSheets[0];
-    styleSheet.insertRule(`
-        .blink::after {
-            content: '';
-            display: inline-block;
-            width: 10px;
-            height: 1em;
-            background-color: #FF00FF;
-            margin-left: 5px;
-            vertical-align: middle;
-            animation: blink-cursor 0.7s steps(2) infinite;
-        }
-    `, styleSheet.cssRules.length);
 
-    const canvas = document.getElementById('matrixCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function setCanvasSize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+document.styleSheets[0].insertRule(`
+    .blink::after {
+        content: '';
+        display: inline-block;
+        width: 10px;
+        height: 1em;
+        background-color: #FF00FF;
+        margin-left: 5px;
+        vertical-align: middle;
+        animation: blink-cursor 0.7s steps(2) infinite;
     }
+`, document.styleSheets[0].cssRules.length);
 
-    setCanvasSize();
+const canvas = document.getElementById('matrixCanvas');
+const ctx = canvas.getContext('2d');
 
-    const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = Array.from({ length: columns }).fill(1);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    function draw() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
 
-        ctx.fillStyle = '#8A2BE2';  
-        ctx.font = `${fontSize}px monospace`;
+for (let x = 0; x < columns; x++) {
+    drops[x] = 1;
+}
 
-        for (let i = 0; i < drops.length; i++) {
-            const text = letters[Math.floor(Math.random() * letters.length)];
-            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
+    ctx.fillStyle = '#8A2BE2';  
+    ctx.font = fontSize + 'px monospace';
 
-            drops[i]++;
+    for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
         }
+
+        drops[i]++;
     }
+}
 
-    setInterval(draw, 33);
+setInterval(draw, 33);
 
-    window.addEventListener('resize', () => {
-        setCanvasSize();
-        const columns = Math.floor(canvas.width / fontSize);
-        drops.length = columns;
-        for (let i = 0; i < columns; i++) {
-            drops[i] = 1;
-        }
-    });
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+   
+    const columns = canvas.width / fontSize;
+    drops.length = 0;
+    for (let x = 0; x < columns; x++) {
+        drops[x] = 1;
+    }
 });
