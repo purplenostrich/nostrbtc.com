@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const nostrText = document.querySelector('.nostrText');
-    nostrText.textContent = 'find me on nostr';
+
 
     nostrText.addEventListener('animationend', (e) => {
         if (e.animationName === 'typing') {
